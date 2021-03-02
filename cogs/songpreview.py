@@ -1,15 +1,26 @@
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 from discord.ext import commands
-import discord
-import aiohttp
-import urllib
-import datetime
-
+import discord, aiohttp, urllib, datetime
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 class Preview(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
+
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#       
     @commands.command(aliases=['prev'])
-     async def preview(self, ctx, *, song):
+    async def preview(self, ctx, *, song):
       try:
         async with aiohttp.ClientSession() as session:
             async with session.get(f"https://api.deezer.com/search/track/autocomplete?limit=1&q={song}") as response:
@@ -25,6 +36,10 @@ class Preview(commands.Cog):
         m = await ctx.send(embed=embed)
         print(e)
 
-
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 def setup(bot):
     bot.add_cog(Preview(bot))

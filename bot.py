@@ -1,13 +1,27 @@
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 from os import environ, listdir
 from discord import Intents
 from discord.ext import commands
-
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 __import__("dotenv").load_dotenv()
 
 bot = commands.Bot(command_prefix="py/", case_insensitive=True, intents=Intents.all())
 
 for cog in filter(lambda c: c.endswith(".py"), listdir("cogs/")):
     bot.load_extension(f"cogs.{cog[:-3]}")
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 
 #Added by Running Child
 #Start
@@ -23,6 +37,11 @@ async def load_cmd(ctx, extension):
     else:
         await ctx.send("You are not my master.")
 
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 @bot.command(aliases=["unload"])
 async def unload_cmd(ctx, extension):
     if ctx.message.author.id in admins_list:
@@ -34,7 +53,11 @@ async def unload_cmd(ctx, extension):
     else:
         await ctx.send("You are not my master.")
 
-
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 @bot.command(aliases=["reload"])
 async def reload_cmd(ctx,cog):
     if ctx.message.author.id in admins_list:
@@ -46,8 +69,11 @@ async def reload_cmd(ctx,cog):
             await ctx.send("Something went wrong. Please,check terminal for getting more detailed info.")
     else:
         await ctx.send("You are not my master.")
-
 #End
 
-
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 bot.run(environ["TOKEN"])

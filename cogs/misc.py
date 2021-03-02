@@ -1,20 +1,24 @@
 #Start
-import discord
+import discord, aiohttp, math, datetime
 from discord.ext import commands
-import aiohttp
-import math
-import datetime
-
-
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 class Misc(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 	@commands.command(aliases=["osu","osuinfo"])
 	async def osu_cmd(self, ctx,option,user,mode="standart"):
-		if option.lower()=="user":
-			if mode.lower()=="standart":
+		if option.lower() == "user":
+			if mode.lower() == "standart":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user?u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -34,7 +38,8 @@ class Misc(commands.Cog):
 							embed.add_field(name="Ranks:",value=f"A:{res[0]['count_rank_a']}\nS:{res[0]['count_rank_s']}\nS Silver:{res[0]['count_rank_sh']}\nSS:{res[0]['count_rank_ss']}\nSS Silver:{res[0]['count_rank_ssh']}")
 						await ctx.send(embed=embed)
 						cs.close()
-			elif mode.lower()=="taiko":
+						
+			elif mode.lower() == "taiko":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user?m=1&u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -54,7 +59,8 @@ class Misc(commands.Cog):
 							embed.add_field(name="Ranks:",value=f"A:{res[0]['count_rank_a']}\nS:{res[0]['count_rank_s']}\nS Silver:{res[0]['count_rank_sh']}\nSS:{res[0]['count_rank_ss']}\nSS Silver:{res[0]['count_rank_ssh']}")
 						await ctx.send(embed=embed)
 						cs.close()
-			elif mode.lower()=="mania":
+
+			elif mode.lower() == "mania":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user?m=3&u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -74,7 +80,8 @@ class Misc(commands.Cog):
 							embed.add_field(name="Ranks:",value=f"A:{res[0]['count_rank_a']}\nS:{res[0]['count_rank_s']}\nS Silver:{res[0]['count_rank_sh']}\nSS:{res[0]['count_rank_ss']}\nSS Silver:{res[0]['count_rank_ssh']}")
 						await ctx.send(embed=embed)
 						cs.close()
-			elif mode.lower()=="ctb":
+
+			elif mode.lower() == "ctb":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user?m=2&u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -94,8 +101,9 @@ class Misc(commands.Cog):
 							embed.add_field(name="Ranks:",value=f"A:{res[0]['count_rank_a']}\nS:{res[0]['count_rank_s']}\nS Silver:{res[0]['count_rank_sh']}\nSS:{res[0]['count_rank_ss']}\nSS Silver:{res[0]['count_rank_ssh']}")
 						await ctx.send(embed=embed)
 						cs.close()
-		elif option.lower()=="recent":
-			if mode.lower()=="standart":
+
+		elif option.lower() == "recent":
+			if mode.lower() == "standart":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user_recent?u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -129,7 +137,8 @@ class Misc(commands.Cog):
 									embed.add_field(name=f"#{x+1} - {title}",value=f"Rank:{given_recents[x]['rank']} - Score:{given_recents[x]['score']} - Date: {given_recents[x]['date']}",inline=False)
 									x+=1
 								await ctx.send(embed=embed)
-			elif mode.lower()=="taiko":
+
+			elif mode.lower() == "taiko":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user_recent?m=1&u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -163,7 +172,8 @@ class Misc(commands.Cog):
 									embed.add_field(name=f"#{x+1} - {title}",value=f"Rank:{given_recents[x]['rank']} - Score:{given_recents[x]['score']} - Date: {given_recents[x]['date']}",inline=False)
 									x+=1
 								await ctx.send(embed=embed)
-			elif mode.lower()=="ctb":
+
+			elif mode.lower() == "ctb":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user_recent?m=2&u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -197,7 +207,8 @@ class Misc(commands.Cog):
 									embed.add_field(name=f"#{x+1} - {title}",value=f"Rank:{given_recents[x]['rank']} - Score:{given_recents[x]['score']} - Date: {given_recents[x]['date']}",inline=False)
 									x+=1
 								await ctx.send(embed=embed)
-			elif mode.lower()=="mania":
+								
+			elif mode.lower() == "mania":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user_recent?m=3&u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -231,8 +242,9 @@ class Misc(commands.Cog):
 									embed.add_field(name=f"#{x+1} - {title}",value=f"Rank:{given_recents[x]['rank']} - Score:{given_recents[x]['score']} - Date: {given_recents[x]['date']}",inline=False)
 									x+=1
 								await ctx.send(embed=embed)
-		elif option.lower()=="best":
-			if mode.lower()=="standart":
+
+		elif option.lower() == "best":
+			if mode.lower() == "standart":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user_best?u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -266,7 +278,8 @@ class Misc(commands.Cog):
 									embed.add_field(name=f"#{x+1} - {title}",value=f"Rank:{given_recents[x]['rank']} - Score:{given_recents[x]['score']} - Date: {given_recents[x]['date']}",inline=False)
 									x+=1
 								await ctx.send(embed=embed)
-			if mode.lower()=="taiko":
+
+			if mode.lower() == "taiko":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user_best?m=1&u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -300,7 +313,8 @@ class Misc(commands.Cog):
 									embed.add_field(name=f"#{x+1} - {title}",value=f"Rank:{given_recents[x]['rank']} - Score:{given_recents[x]['score']} - Date: {given_recents[x]['date']}",inline=False)
 									x+=1
 								await ctx.send(embed=embed)
-			if mode.lower()=="ctb":
+
+			if mode.lower() == "ctb":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user_best?m=2&u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -334,7 +348,8 @@ class Misc(commands.Cog):
 									embed.add_field(name=f"#{x+1} - {title}",value=f"Rank:{given_recents[x]['rank']} - Score:{given_recents[x]['score']} - Date: {given_recents[x]['date']}",inline=False)
 									x+=1
 								await ctx.send(embed=embed)
-			if mode.lower()=="mania":
+
+			if mode.lower() == "mania":
 				async with aiohttp.ClientSession() as cs:
 					async with cs.get(f"https://osu.ppy.sh/api/get_user_best?m=3&u={user}&k={os.environ['OSU_TOKEN']}") as r:
 						async with ctx.typing():
@@ -369,6 +384,11 @@ class Misc(commands.Cog):
 									x+=1
 								await ctx.send(embed=embed)
 
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 def setup(client):
 	client.add_cog(Misc(client))
 #End

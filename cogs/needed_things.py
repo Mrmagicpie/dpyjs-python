@@ -1,16 +1,26 @@
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 #Start
-import discord
 from discord.ext import commands
-import datetime
-import asyncio 
-import typing
-import aiohttp
+import datetime, asyncio, typing, aiohttp, discord
 from htmllaundry import strip_markup
-
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 class Needed_things(commands.Cog):
     def __init__(self,client):
         self.client=client
-    
+
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+# 
     @commands.command(aliases=["avatar"])
     async def avatar_cmd(self,ctx,user:discord.Member):
         async with ctx.typing():
@@ -20,7 +30,11 @@ class Needed_things(commands.Cog):
             embed_obj.set_footer(text=f"Requested by {ctx.message.author.display_name}", icon_url=ctx.message.author.avatar_url_as())
         await ctx.send(embed=embed_obj)
             
-
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
     @avatar_cmd.error
     async def avatar_cmd_error(self,ctx,error):
         if isinstance(error, commands.MissingRequiredArgument):
@@ -32,6 +46,11 @@ class Needed_things(commands.Cog):
         else:
             raise error
 
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
     @commands.command(aliases=["userinfo"])
     async def userinfo_cmd(self,ctx,user:discord.Member):
         async with ctx.typing():
@@ -60,6 +79,11 @@ class Needed_things(commands.Cog):
             embed_obj.set_footer(text=f"Requested by {ctx.message.author.display_name}", icon_url=ctx.message.author.avatar_url_as())
         await ctx.send(embed=embed_obj)
 
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
     @userinfo_cmd.error
     async def userinfo_cmd_error(self,ctx,error):
         if isinstance(error, commands.MissingRequiredArgument):
@@ -89,6 +113,12 @@ class Needed_things(commands.Cog):
             await ctx.send(embed=embed_obj)
         else:
             raise error
+
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
     @commands.command(aliases=["serverinfo"])
     async def serverinfo_cmd(self,ctx):
         async with ctx.typing():
@@ -108,7 +138,11 @@ class Needed_things(commands.Cog):
             embed_obj.set_footer(text=f"Server ID:{ctx.guild.id}\nRequested by {ctx.message.author.display_name}", icon_url=ctx.message.author.avatar_url_as())
         await ctx.send(embed=embed_obj)
 
-
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
     @commands.command(aliases=["vote"])
     async def vote_cmd(self, ctx, countdown: typing.Optional[int] = 30, *,args):
         embed = discord.Embed(
@@ -151,12 +185,23 @@ class Needed_things(commands.Cog):
             result_embed.title=f"{decision}"
         await ctx.send(embed=result_embed)
 
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
     @vote_cmd.error
     async def vote_cmd_error(self,ctx,error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Usage:\nPi Vote 15(optional) argument 1,argument 2(required)")
         else:
             raise error
+
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
     @commands.command(aliases=["quote"])
     async def quote_cmd(self,ctx):
         async with aiohttp.ClientSession() as cs:
@@ -168,9 +213,15 @@ class Needed_things(commands.Cog):
                 embed_obj.title=quote
                 embed_obj.set_footer(text=f"Author:{author}")
                 await ctx.send(embed=embed_obj)
+
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
     @commands.command(aliases=["anilist","aniinfo","animeinfo"])
     async def mal_cmd(self,ctx,type,*,name):
-        if type.lower()=="anime":
+        if type.lower() == "anime":
             query = '''
             query ($id: Int, $page: Int, $perPage: Int, $search: String) {
                 Page (page: $page, perPage: $perPage) {
@@ -249,7 +300,8 @@ class Needed_things(commands.Cog):
                     await self.client.wait_for('message',timeout=20,check=check)
                     description=strip_markup(result['description'])
                     await ctx.send(description)
-        if type.lower()=="manga":
+
+        if type.lower() == "manga":
             query = '''
             query ($id: Int, $page: Int, $perPage: Int, $search: String) {
                 Page (page: $page, perPage: $perPage) {
@@ -329,6 +381,12 @@ class Needed_things(commands.Cog):
                     await ctx.send(description)
         # else:
         #     await ctx.send(f"Unknown option:`{option}`.\nUsage: `pi anilist <anime/manga> <name of anime/manga>`")
+
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
     @commands.command(aliases=["youtube","youtubesearch","ytsearch"])
     async def ytsearch_cmd(self,ctx,*,name):
         name_1=name.split()
@@ -342,6 +400,12 @@ class Needed_things(commands.Cog):
                 #AIzaSyD-Sr0YQc0k3_mKMMcLVmmbaeZTD7jfZcs
                 link=items[0]['id']['videoId']
                 await ctx.send(f"https://youtube.com/watch?v={link}")
+
+#
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#
 def setup(client):
     client.add_cog(Needed_things(client))
 #End
